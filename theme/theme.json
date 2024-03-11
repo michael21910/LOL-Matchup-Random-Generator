@@ -3,7 +3,33 @@
     {
         "colours":
         {
-            "normal_text": "#FFFFFF"
+            "normal_text": "#694635",
+            "normal_bg": "#F2F0DD",
+            "normal_border": "#694635",
+            "dark_bg": "#F2F0DD",
+            "hovered_text": "#F2F0DD",
+            "hovered_bg": "#694635",
+            "hovered_border": "#F2F0DD"
+        }
+    },
+    "drop_down_menu":
+    {
+        "misc":
+        {
+            "expand_direction": "down"
+        }
+    },
+    "drop_down_menu.#selected_option":
+    {
+        "colours":
+        {
+            "normal_text": "#F2F0DD",
+            "normal_bg": "#694635",
+            "normal_border": "#694635",
+            "dark_bg": "#694635",
+            "hovered_text": "#694635",
+            "hovered_bg": "#F2F0DD",
+            "hovered_border": "#694635"
         }
     }
 }

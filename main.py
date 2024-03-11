@@ -1,39 +1,39 @@
 import pygame
 import pygame_gui
+import pyperclip
 from MatchUpGenerator import MatchUpGenerator
 
-COLOR_WHITE = (255, 255, 255)
-COLOR_BLACK = (0, 0, 0)
+COLOR_BIEGE = (242, 240, 221)
+COLOR_BROWN = (105, 70, 53)
+WINDOW_SIZE = (1440, 810)
 
 pygame.init()
 
-windowSize = (1920 // 2, 1080 // 2)
-window = pygame.display.set_mode(windowSize)
+window = pygame.display.set_mode(WINDOW_SIZE)
 pygame.display.set_caption("LOL Random Selector")
 
-manager = pygame_gui.UIManager(windowSize, "./theme/theme.json")
+manager = pygame_gui.UIManager(WINDOW_SIZE, "./theme/theme.json")
 
-# playerOptions = ["2", "4", "6", "8", "10"]
 playerOptions = [str(i) for i in range(2, 11, 2)]
 modeOptions = ["NG", "AR"]
 
 ### UI Elements
-# player label, "Total Players:"
+# player label, "Total Players"
 playerLabelPositionX = 50
 playerLabelPositionY = 50
 playerLabelWidth = 150
 playerLabelHeight = 30
 playerLabel = pygame_gui.elements.UILabel(relative_rect = pygame.Rect((playerLabelPositionX, playerLabelPositionY), (playerLabelWidth, playerLabelHeight)),
-                                            text = "Total Players:",
+                                            text = "Total Players",
                                             manager = manager)
 
-# mode label, "Mode:"
+# mode label, "Mode"
 modeLabelPositionX = 50
 modeLabelPositionY = 100
 modeLabelWidth = 150
 modeLabelHeight = 30
 modeLabel = pygame_gui.elements.UILabel(relative_rect = pygame.Rect((modeLabelPositionX, modeLabelPositionY), (modeLabelWidth, modeLabelHeight)),
-                                        text = "Mode:",
+                                        text = "Mode",
                                         manager = manager)
 
 # player dropdown
@@ -85,7 +85,7 @@ exportButton = pygame_gui.elements.UIButton(relative_rect = pygame.Rect((exportB
 
 # close button
 closeButtonPositionX = 50
-closeButtonPositionY = windowSize[1] - 60
+closeButtonPositionY = WINDOW_SIZE[1] - 60
 closeButtonWidth = modeLabelWidth + modeDropdownWidth
 closeButtonHeight = 30
 closeButton = pygame_gui.elements.UIButton(relative_rect = pygame.Rect((closeButtonPositionX, closeButtonPositionY), (closeButtonWidth, closeButtonHeight)),
@@ -96,8 +96,8 @@ closeButton = pygame_gui.elements.UIButton(relative_rect = pygame.Rect((closeBut
 padding = 30
 textBoxPositionX = playerDropdownPositionX + playerDropdownWidth + padding
 textBoxPositionY = playerDropdownPositionY
-textBoxWidth = windowSize[0] - textBoxPositionX - padding
-textBoxHeight = windowSize[1] - textBoxPositionY - padding
+textBoxWidth = WINDOW_SIZE[0] - textBoxPositionX - padding
+textBoxHeight = WINDOW_SIZE[1] - textBoxPositionY - padding
 textBox = pygame_gui.elements.UITextEntryBox(initial_text  = "MatchUp Information Here :D",
                                        relative_rect = pygame.Rect((textBoxPositionX, textBoxPositionY), (textBoxWidth, textBoxHeight)),
                                        manager = manager)
@@ -118,8 +118,7 @@ while isRunning:
                 matchupInformation = matchupGenerator.GenerateMatchUp()
                 textBox.set_text(matchupInformation)
             if event.ui_element == copyButton:
-                pygame.scrap.init()
-                pygame.scrap.put(pygame.SCRAP_TEXT, textBox.get_text().encode())
+                pyperclip.copy(textBox.get_text())
             if event.ui_element == exportButton:
                 with open("matchup.txt", "w") as file:
                     file.write(textBox.get_text())
@@ -127,7 +126,7 @@ while isRunning:
                 isRunning = False
         manager.process_events(event)
     manager.update(time_delta)
-    window.fill(COLOR_BLACK)
+    window.fill(COLOR_BIEGE)
     manager.draw_ui(window)
     pygame.display.flip()
 
