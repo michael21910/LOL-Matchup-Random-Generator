@@ -56,9 +56,18 @@ modeDropdown = pygame_gui.elements.UIDropDownMenu(options_list = modeOptions,
                                                     relative_rect = pygame.Rect((modeDropdownPositionX, modeDropdownPositionY), (modeDropdownWidth, modeDropdownHeight)),
                                                     manager = manager)
 
+# clear textbox button
+clearButtonPositionX = 50
+clearButtonPositionY = 150
+clearButtonWidth = modeLabelWidth + modeDropdownWidth
+clearButtonHeight = 30
+clearButton = pygame_gui.elements.UIButton(relative_rect = pygame.Rect((clearButtonPositionX, clearButtonPositionY), (clearButtonWidth, clearButtonHeight)),
+                                           text = "Clear MatchUp Information",
+                                           manager = manager)
+
 # generate matchup button
 generateButtonPositionX = 50
-generateButtonPositionY = 150
+generateButtonPositionY = 200
 generateButtonWidth = modeLabelWidth + modeDropdownWidth
 generateButtonHeight = 30
 generateButton = pygame_gui.elements.UIButton(relative_rect = pygame.Rect((generateButtonPositionX, generateButtonPositionY), (generateButtonWidth, generateButtonHeight)),
@@ -67,7 +76,7 @@ generateButton = pygame_gui.elements.UIButton(relative_rect = pygame.Rect((gener
 
 # copy matchup button
 copyButtonPositionX = 50
-copyButtonPositionY = 200
+copyButtonPositionY = 250
 copyButtonWidth = modeLabelWidth + modeDropdownWidth
 copyButtonHeight = 30
 copyButton = pygame_gui.elements.UIButton(relative_rect = pygame.Rect((copyButtonPositionX, copyButtonPositionY), (copyButtonWidth, copyButtonHeight)),
@@ -76,7 +85,7 @@ copyButton = pygame_gui.elements.UIButton(relative_rect = pygame.Rect((copyButto
 
 # export matchup button
 exportButtonPositionX = 50
-exportButtonPositionY = 250
+exportButtonPositionY = 300
 exportButtonWidth = modeLabelWidth + modeDropdownWidth
 exportButtonHeight = 30
 exportButton = pygame_gui.elements.UIButton(relative_rect = pygame.Rect((exportButtonPositionX, exportButtonPositionY), (exportButtonWidth, exportButtonHeight)),
@@ -109,8 +118,10 @@ while isRunning:
     time_delta = clock.tick(60) / 1000.0
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            is_running = False
+            isRunning = False
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
+            if event.ui_element == clearButton:
+                textBox.set_text("")
             if event.ui_element == generateButton:
                 player_selection = int(playerDropdown.selected_option)
                 mode_selection = modeDropdown.selected_option
