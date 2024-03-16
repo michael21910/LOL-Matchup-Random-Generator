@@ -8,7 +8,7 @@ COLOR_BROWN = (105, 70, 53)
 WINDOW_SIZE = (1440, 810)
 PLAYER_OPTIONS = [str(i) for i in range(1, 11)]
 MODE_OPTIONS = ["NG", "AR"]
-SPY_OPTIONS = ["ON", "OFF"]
+SPY_OPTIONS = ["ON", "OFF", "ONLY SPY"]
 COMPONENT_X_INIT_POSITION = 50
 COMPONENT_Y_INIT_POSITION = 50
 COMPONENT_Y_DISTANCE = 50
@@ -161,6 +161,10 @@ while isRunning:
             if event.ui_element == exportButton:
                 with open("matchup.txt", "w") as file:
                     file.write(textBox.get_text())
+        if spyModeDropdown.selected_option == "ONLY_SPY":
+            modeDropdown.disable()
+        else:
+            modeDropdown.enable()
         manager.process_events(event)
     manager.update(time_delta)
     window.fill(COLOR_BIEGE)

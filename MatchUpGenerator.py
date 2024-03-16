@@ -12,7 +12,7 @@ class MatchUpGenerator:
         self.ITEM_LIST = list()
         self.RUNES_LIST = list()
     
-    # assign factor variables, including: CHAMPION_LIST, SKILL_LIST, ITEM_LIST, RUNES_LIST, SPY_MODE
+    # assign factor variables, including: CHAMPION_LIST, SKILL_LIST, ITEM_LIST, RUNES_LIST
     def AssignFactorVariables(self):
 
         # set up variables from file
@@ -29,11 +29,6 @@ class MatchUpGenerator:
             self.SKILL_LIST = VariableSetUpByFile(os.path.join(current_directory, "factorTextFile", "skillsAR.txt"))
             self.ITEM_LIST = VariableSetUpByFile(os.path.join(current_directory, "factorTextFile", "itemsAR.txt"))
         self.RUNES_LIST = VariableSetUpByFile(os.path.join(current_directory, "factorTextFile", "runes.txt"))
-        
-        if self.SPY_MODE == "ON":
-            self.SPY_MODE = True
-        else:
-            self.SPY_MODE = False
 
     # return matchup information
     def GenerateMatchUp(self):
@@ -77,7 +72,10 @@ Runes: {self.RUNES_LIST[random.randint(0, runesCount - 1)]}\n\n"
             output += outputPersonal
 
         # if spy mode triggered
-        if self.SPY_MODE:
-            output += f"Spy: Player {random.randint(1, self.TOTAL_PLAYER)}\n"
+        spyPlayer = random.randint(1, self.TOTAL_PLAYER)
+        if self.SPY_MODE == "ON":
+            output += f"Spy: Player {spyPlayer}\n"
+        elif self.SPY_MODE == "ONLY SPY":
+            output = f"Spy: Player {spyPlayer}\n"
 
         return output
