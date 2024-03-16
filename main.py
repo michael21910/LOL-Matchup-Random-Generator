@@ -161,7 +161,7 @@ while isRunning:
             if event.ui_element == exportButton:
                 with open("matchup.txt", "w") as file:
                     file.write(textBox.get_text())
-        if spyModeDropdown.selected_option == "ONLY_SPY":
+        if spyModeDropdown.selected_option == "ONLY SPY":
             modeDropdown.disable()
         else:
             modeDropdown.enable()
