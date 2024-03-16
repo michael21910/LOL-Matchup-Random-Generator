@@ -3,15 +3,16 @@ import time
 import os
 
 class MatchUpGenerator:
-    def __init__(self, playerCount, mode):
-        self.PLAYERCOUNT = playerCount
-        self.MODE = mode
+    def __init__(self, totalPlayer, gameMode, spyMode):
+        self.TOTAL_PLAYER = totalPlayer
+        self.GAME_MODE = gameMode
+        self.SPY_MODE = spyMode
         self.CHAMPION_LIST = list()
         self.SKILL_LIST = list()
         self.ITEM_LIST = list()
         self.RUNES_LIST = list()
     
-    # assign factor variables, including: CHAMPION_LIST, SKILL_LIST, ITEM_LIST, RUNES_LIST
+    # assign factor variables, including: CHAMPION_LIST, SKILL_LIST, ITEM_LIST, RUNES_LIST, SPY_MODE
     def AssignFactorVariables(self):
 
         # set up variables from file
@@ -21,13 +22,18 @@ class MatchUpGenerator:
 
         current_directory = os.path.dirname(__file__)
         self.CHAMPION_LIST = VariableSetUpByFile(os.path.join(current_directory, "factorTextFile", "champions.txt"))
-        if self.MODE == "NG":
+        if self.GAME_MODE == "NG":
             self.SKILL_LIST = VariableSetUpByFile(os.path.join(current_directory, "factorTextFile", "skillsNG.txt"))
             self.ITEM_LIST = VariableSetUpByFile(os.path.join(current_directory, "factorTextFile", "itemsNG.txt"))
-        elif self.MODE == "AR":
+        elif self.GAME_MODE == "AR":
             self.SKILL_LIST = VariableSetUpByFile(os.path.join(current_directory, "factorTextFile", "skillsAR.txt"))
             self.ITEM_LIST = VariableSetUpByFile(os.path.join(current_directory, "factorTextFile", "itemsAR.txt"))
         self.RUNES_LIST = VariableSetUpByFile(os.path.join(current_directory, "factorTextFile", "runes.txt"))
+        
+        if self.SPY_MODE == "ON":
+            self.SPY_MODE = True
+        else:
+            self.SPY_MODE = False
 
     # return matchup information
     def GenerateMatchUp(self):
@@ -35,13 +41,13 @@ class MatchUpGenerator:
         # get champion index, no repeat
         # return list of numbers
         def GetChampionIndex(champCount):
-            return random.sample(range(0, champCount), self.PLAYERCOUNT)
+            return random.sample(range(0, champCount), self.TOTAL_PLAYER)
         
         # get skill index
         # return: [ [player 1 skill 1, player 1 skill 2], [], [], [], ... ]
         def GetSkillIndex(skillCount):
             allPlayerSkillIndex = list()
-            for _ in range(self.PLAYERCOUNT):
+            for _ in range(self.TOTAL_PLAYER):
                 allPlayerSkillIndex.append( random.sample(range(0, skillCount), 2) )
                 time.sleep(0.0001)
             return allPlayerSkillIndex
@@ -61,7 +67,7 @@ class MatchUpGenerator:
 
         # generate output
         output = ""
-        for i in range(self.PLAYERCOUNT):
+        for i in range(self.TOTAL_PLAYER):
             outputPersonal = f"Player {i + 1}\n\
 Champion: {self.CHAMPION_LIST[ champIndexList[i] ]}\n\
 Skill1: {self.SKILL_LIST[ skillIndexList[i][0] ]}\n\
@@ -69,5 +75,9 @@ Skill2: {self.SKILL_LIST[ skillIndexList[i][1] ]}\n\
 Item1: {self.ITEM_LIST[random.randint(0, itemCount - 1)]}\n\
 Runes: {self.RUNES_LIST[random.randint(0, runesCount - 1)]}\n\n"
             output += outputPersonal
+
+        # if spy mode triggered
+        if self.SPY_MODE:
+            output += f"Spy: Player {random.randint(1, self.TOTAL_PLAYER)}\n"
 
         return output

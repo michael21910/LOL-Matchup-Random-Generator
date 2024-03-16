@@ -6,6 +6,16 @@ from MatchUpGenerator import MatchUpGenerator
 COLOR_BIEGE = (242, 240, 221)
 COLOR_BROWN = (105, 70, 53)
 WINDOW_SIZE = (1440, 810)
+PLAYER_OPTIONS = [str(i) for i in range(1, 11)]
+MODE_OPTIONS = ["NG", "AR"]
+SPY_OPTIONS = ["ON", "OFF"]
+COMPONENT_X_INIT_POSITION = 50
+COMPONENT_Y_INIT_POSITION = 50
+COMPONENT_Y_DISTANCE = 50
+LABEL_WIDTH = 150
+DROPDOWN_WIDTH = 200
+BUTTON_WIDTH = LABEL_WIDTH + DROPDOWN_WIDTH
+LABEL_HEIGHT = DROPDOWN_HEIGHT = BUTTON_HEIGHT = 30
 
 pygame.init()
 
@@ -14,92 +24,109 @@ pygame.display.set_caption("LOL Random Selector")
 
 manager = pygame_gui.UIManager(WINDOW_SIZE, "./theme/theme.json")
 
-playerOptions = [str(i) for i in range(2, 11, 2)]
-modeOptions = ["NG", "AR"]
-
 ### UI Elements
 # player label, "Total Players"
-playerLabelPositionX = 50
-playerLabelPositionY = 50
-playerLabelWidth = 150
-playerLabelHeight = 30
+playerLabelPositionX = COMPONENT_X_INIT_POSITION
+playerLabelPositionY = COMPONENT_Y_INIT_POSITION
+playerLabelWidth = LABEL_WIDTH
+playerLabelHeight = LABEL_HEIGHT
 playerLabel = pygame_gui.elements.UILabel(relative_rect = pygame.Rect((playerLabelPositionX, playerLabelPositionY), (playerLabelWidth, playerLabelHeight)),
                                             text = "Total Players",
                                             manager = manager)
 
-# mode label, "Mode"
-modeLabelPositionX = 50
-modeLabelPositionY = 100
-modeLabelWidth = 150
-modeLabelHeight = 30
-modeLabel = pygame_gui.elements.UILabel(relative_rect = pygame.Rect((modeLabelPositionX, modeLabelPositionY), (modeLabelWidth, modeLabelHeight)),
-                                        text = "Mode",
-                                        manager = manager)
-
 # player dropdown
 playerDropdownPositionX = playerLabelPositionX + playerLabelWidth
 playerDropdownPositionY = playerLabelPositionY
-playerDropdownWidth = 200
-playerDropdownHeight = 30
-playerDropdown = pygame_gui.elements.UIDropDownMenu(options_list = playerOptions,
-                                                    starting_option = playerOptions[0],
+playerDropdownWidth = DROPDOWN_WIDTH
+playerDropdownHeight = DROPDOWN_HEIGHT
+playerDropdown = pygame_gui.elements.UIDropDownMenu(options_list = PLAYER_OPTIONS,
+                                                    starting_option = PLAYER_OPTIONS[0],
                                                     relative_rect = pygame.Rect((playerDropdownPositionX, playerDropdownPositionY), (playerDropdownWidth, playerDropdownHeight)),
                                                     manager = manager)
+
+# mode label, "Mode"
+modeLabelPositionX = COMPONENT_X_INIT_POSITION
+modeLabelPositionY = playerLabelPositionY + COMPONENT_Y_DISTANCE
+modeLabelWidth = LABEL_WIDTH
+modeLabelHeight = LABEL_HEIGHT
+modeLabel = pygame_gui.elements.UILabel(relative_rect = pygame.Rect((modeLabelPositionX, modeLabelPositionY), (modeLabelWidth, modeLabelHeight)),
+                                        text = "Game Mode",
+                                        manager = manager)
+
 
 # mode dropdown
 modeDropdownPositionX = modeLabelPositionX + modeLabelWidth
 modeDropdownPositionY = modeLabelPositionY
-modeDropdownWidth = 200
-modeDropdownHeight = 30
-modeDropdown = pygame_gui.elements.UIDropDownMenu(options_list = modeOptions,
-                                                    starting_option = modeOptions[0],
+modeDropdownWidth = DROPDOWN_WIDTH
+modeDropdownHeight = DROPDOWN_HEIGHT
+modeDropdown = pygame_gui.elements.UIDropDownMenu(options_list = MODE_OPTIONS,
+                                                    starting_option = MODE_OPTIONS[0],
                                                     relative_rect = pygame.Rect((modeDropdownPositionX, modeDropdownPositionY), (modeDropdownWidth, modeDropdownHeight)),
                                                     manager = manager)
 
+# spy mode label, "Spy Mode"
+spyModeLabelPositionX = COMPONENT_X_INIT_POSITION
+spyModeLabelPositionY = modeLabelPositionY + COMPONENT_Y_DISTANCE
+spyModeLabelWidth = LABEL_WIDTH
+spyModeLabelHeight = LABEL_HEIGHT
+spyModeLabel = pygame_gui.elements.UILabel(relative_rect = pygame.Rect((spyModeLabelPositionX, spyModeLabelPositionY), (spyModeLabelWidth, spyModeLabelHeight)),
+                                            text = "Spy Mode",
+                                            manager = manager)
+
+# spy mode dropdown
+spyModeDropdownPositionX = spyModeLabelPositionX + spyModeLabelWidth
+spyModeDropdownPositionY = spyModeLabelPositionY
+spyModeDropdownWidth = DROPDOWN_WIDTH
+spyModeDropdownHeight = DROPDOWN_HEIGHT
+spyModeDropdown = pygame_gui.elements.UIDropDownMenu(options_list = SPY_OPTIONS,
+                                                    starting_option = SPY_OPTIONS[0],
+                                                    relative_rect = pygame.Rect((spyModeDropdownPositionX, spyModeDropdownPositionY), (spyModeDropdownWidth, spyModeDropdownHeight)),
+                                                    manager = manager)
+
 # clear textbox button
-clearButtonPositionX = 50
-clearButtonPositionY = 150
-clearButtonWidth = modeLabelWidth + modeDropdownWidth
-clearButtonHeight = 30
+clearButtonPositionX = COMPONENT_X_INIT_POSITION
+clearButtonPositionY = spyModeLabelPositionY + COMPONENT_Y_DISTANCE
+clearButtonWidth = BUTTON_WIDTH
+clearButtonHeight = BUTTON_HEIGHT
 clearButton = pygame_gui.elements.UIButton(relative_rect = pygame.Rect((clearButtonPositionX, clearButtonPositionY), (clearButtonWidth, clearButtonHeight)),
                                            text = "Clear MatchUp Information",
                                            manager = manager)
 
 # generate matchup button
-generateButtonPositionX = 50
-generateButtonPositionY = 200
-generateButtonWidth = modeLabelWidth + modeDropdownWidth
-generateButtonHeight = 30
+generateButtonPositionX = COMPONENT_X_INIT_POSITION
+generateButtonPositionY = clearButtonPositionY + COMPONENT_Y_DISTANCE
+generateButtonWidth = BUTTON_WIDTH
+generateButtonHeight = BUTTON_HEIGHT
 generateButton = pygame_gui.elements.UIButton(relative_rect = pygame.Rect((generateButtonPositionX, generateButtonPositionY), (generateButtonWidth, generateButtonHeight)),
                                                text = "Generate MatchUp",
                                                manager = manager)
 
 # copy matchup button
-copyButtonPositionX = 50
-copyButtonPositionY = 250
-copyButtonWidth = modeLabelWidth + modeDropdownWidth
-copyButtonHeight = 30
+copyButtonPositionX = COMPONENT_X_INIT_POSITION
+copyButtonPositionY = generateButtonPositionY + COMPONENT_Y_DISTANCE
+copyButtonWidth = BUTTON_WIDTH
+copyButtonHeight = BUTTON_HEIGHT
 copyButton = pygame_gui.elements.UIButton(relative_rect = pygame.Rect((copyButtonPositionX, copyButtonPositionY), (copyButtonWidth, copyButtonHeight)),
                                                text = "Copy MatchUp Information",
                                                manager = manager)
 
 # export matchup button
-exportButtonPositionX = 50
-exportButtonPositionY = 300
-exportButtonWidth = modeLabelWidth + modeDropdownWidth
-exportButtonHeight = 30
+exportButtonPositionX = COMPONENT_X_INIT_POSITION
+exportButtonPositionY = copyButtonPositionY + COMPONENT_Y_DISTANCE
+exportButtonWidth = BUTTON_WIDTH
+exportButtonHeight = BUTTON_HEIGHT
 exportButton = pygame_gui.elements.UIButton(relative_rect = pygame.Rect((exportButtonPositionX, exportButtonPositionY), (exportButtonWidth, exportButtonHeight)),
                                                text = "Export files to matchup.txt",
                                                manager = manager)
 
 # close button
-closeButtonPositionX = 50
-closeButtonPositionY = WINDOW_SIZE[1] - 60
-closeButtonWidth = modeLabelWidth + modeDropdownWidth
-closeButtonHeight = 30
-closeButton = pygame_gui.elements.UIButton(relative_rect = pygame.Rect((closeButtonPositionX, closeButtonPositionY), (closeButtonWidth, closeButtonHeight)),
-                                               text = "Close Application",
-                                               manager = manager)
+# closeButtonPositionX = 50
+# closeButtonPositionY = WINDOW_SIZE[1] - 60
+# closeButtonWidth = modeLabelWidth + modeDropdownWidth
+# closeButtonHeight = 30
+# closeButton = pygame_gui.elements.UIButton(relative_rect = pygame.Rect((closeButtonPositionX, closeButtonPositionY), (closeButtonWidth, closeButtonHeight)),
+#                                                text = "Close Application",
+#                                                manager = manager)
 
 # generate textbox
 padding = 30
@@ -123,9 +150,10 @@ while isRunning:
             if event.ui_element == clearButton:
                 textBox.set_text("")
             if event.ui_element == generateButton:
-                player_selection = int(playerDropdown.selected_option)
-                mode_selection = modeDropdown.selected_option
-                matchupGenerator = MatchUpGenerator(player_selection, mode_selection)
+                totalPlayer = int(playerDropdown.selected_option)
+                gameMode = modeDropdown.selected_option
+                spyMode = spyModeDropdown.selected_option
+                matchupGenerator = MatchUpGenerator(totalPlayer, gameMode, spyMode)
                 matchupInformation = matchupGenerator.GenerateMatchUp()
                 textBox.set_text(matchupInformation)
             if event.ui_element == copyButton:
@@ -133,8 +161,6 @@ while isRunning:
             if event.ui_element == exportButton:
                 with open("matchup.txt", "w") as file:
                     file.write(textBox.get_text())
-            if event.ui_element == closeButton:
-                isRunning = False
         manager.process_events(event)
     manager.update(time_delta)
     window.fill(COLOR_BIEGE)
